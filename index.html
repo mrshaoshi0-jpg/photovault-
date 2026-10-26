@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f5fa">
+  <meta name="description" content="A private, offline-first photo and video gallery for your iPhone.">
+  <title>PhotoVault</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/flower.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <main id="app" class="app-shell">
+    <header class="topbar glass">
+      <div class="brand">
+        <img src="./icons/flower.svg" class="brand-icon" alt="">
+        <div><div class="brand-name">PhotoVault</div><div class="brand-subtitle">Your private gallery</div></div>
+      </div>
+      <button id="lockNow" class="icon-button" aria-label="Lock app" title="Lock app">⌑</button>
+    </header>
+
+    <section id="lockScreen" class="lock-screen glass hidden">
+      <img src="./icons/flower.svg" class="lock-logo" alt="">
+      <p class="eyebrow">PRIVATE SPACE</p>
+      <h1 id="lockTitle">Set your pattern</h1>
+      <p id="lockHint" class="muted">Connect at least 4 dots. Your pattern is stored on this device.</p>
+      <div id="patternGrid" class="pattern-grid" aria-label="Nine-dot pattern lock"></div>
+      <p id="patternMessage" class="pattern-message" role="status"></p>
+      <div class="lock-actions"><button id="resetPattern" class="text-button">Reset pattern</button><button id="submitPattern" class="primary-button">Continue</button></div>
+      <p class="fine-print">This lock protects the app interface, not the iPhone or other copies of your files.</p>
+    </section>
+
+    <div id="mainContent">
+      <section class="welcome-row">
+        <div><p class="eyebrow">YOUR MOMENTS, YOUR DEVICE</p><h1>Gallery<span class="title-dot">.</span></h1></div>
+        <button id="addButton" class="add-button" aria-label="Import media">＋</button>
+        <input id="filePicker" type="file" accept="image/*,video/*" multiple hidden>
+      </section>
+
+      <section class="search-wrap glass">
+        <span class="search-symbol">⌕</span>
+        <input id="searchInput" type="search" placeholder="Search photos, videos, albums…" autocomplete="off">
+        <button id="clearSearch" class="clear-search" aria-label="Clear search">×</button>
+      </section>
+
+      <nav class="filter-row" aria-label="Gallery filters">
+        <button class="filter-chip active" data-filter="all">All <span id="allCount">0</span></button>
+        <button class="filter-chip" data-filter="photos">Photos <span id="photoCount">0</span></button>
+        <button class="filter-chip" data-filter="videos">Videos <span id="videoCount">0</span></button>
+        <button class="filter-chip" data-filter="favorites">Favorites <span id="favoriteCount">0</span></button>
+      </nav>
+
+      <section class="toolbar">
+        <div><h2 id="sectionTitle">Recent media</h2><p id="sectionSubtitle" class="muted">Stored privately on this device</p></div>
+        <div class="toolbar-actions"><button id="selectMode" class="subtle-button">Select</button><button id="sortButton" class="subtle-button">Newest ↓</button></div>
+      </section>
+
+      <section id="selectionBar" class="selection-bar glass hidden">
+        <span id="selectedCount">0 selected</span>
+        <div><button id="cancelSelection" class="subtle-button">Cancel</button><button id="deleteSelected" class="danger-button">Delete</button></div>
+      </section>
+
+      <section id="mediaGrid" class="media-grid" aria-label="Your media"></section>
+      <section id="emptyState" class="empty-state glass">
+        <div class="empty-art"><span>✿</span></div>
+        <h2>Your story starts here</h2>
+        <p class="muted">Import photos and videos to build your private, offline gallery.</p>
+        <button id="emptyImport" class="primary-button">＋ Import media</button>
+      </section>
+
+      <section class="storage-card glass">
+        <div class="storage-icon">▤</div><div class="storage-copy"><strong>On-device library</strong><p id="storageStatus">Your media stays in this browser on this iPhone.</p></div><span class="status-dot"></span>
+      </section>
+      <footer>PhotoVault · Offline-first by design</footer>
+    </div>
+  </main>
+
+  <div id="viewer" class="viewer hidden" role="dialog" aria-modal="true" aria-label="Media viewer">
+    <div class="viewer-top"><button id="closeViewer" class="viewer-button" aria-label="Close viewer">×</button><span id="viewerCounter"></span><button id="viewerFavorite" class="viewer-button" aria-label="Toggle favorite">♡</button></div>
+    <div id="viewerStage" class="viewer-stage"></div>
+    <div class="viewer-bottom"><div><strong id="viewerName"></strong><p id="viewerMeta"></p></div><div class="viewer-tools"><button id="downloadMedia" class="viewer-button" aria-label="Export original">↧</button><button id="rotateMedia" class="viewer-button" aria-label="Rotate image">↻</button><button id="deleteCurrent" class="viewer-button danger" aria-label="Delete media">⌫</button></div></div>
+  </div>
+
+  <div id="albumModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Create album">
+    <div class="modal glass"><button class="modal-close" id="closeAlbumModal">×</button><p class="eyebrow">ORGANIZE YOUR MOMENTS</p><h2>New album</h2><input id="albumName" class="text-input" maxlength="40" placeholder="Album name"><button id="createAlbum" class="primary-button full-width">Create album</button><p id="albumMessage" class="muted"></p></div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>

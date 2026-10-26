@@ -1,0 +1,20 @@
+{
+  "name": "PhotoVault \u2014 Private Gallery",
+  "short_name": "PhotoVault",
+  "description": "An offline-first private photo and video gallery.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f5fa",
+  "theme_color": "#f4f5fa",
+  "icons": [
+    {
+      "src": "./icons/flower.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
